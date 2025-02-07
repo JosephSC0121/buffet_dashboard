@@ -1,81 +1,66 @@
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableFooter,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
+"use client";
 
-const foodInventory = [
-  {
-    name: "Pollo Asado",
-    category: "Carnes",
-    quantity: 20,
-    unit: "Porciones",
-  },
-  {
-    name: "Ensalada César",
-    category: "Ensaladas",
-    quantity: 15,
-    unit: "Platos",
-  },
-  {
-    name: "Arroz Blanco",
-    category: "Acompañamientos",
-    quantity: 30,
-    unit: "Tazas",
-  },
-  {
-    name: "Pasta Alfredo",
-    category: "Pastas",
-    quantity: 10,
-    unit: "Platos",
-  },
-  {
-    name: "Tarta de Queso",
-    category: "Postres",
-    quantity: 8,
-    unit: "Rebanadas",
-  },
-  {
-    name: "Jugo de Naranja",
-    category: "Bebidas",
-    quantity: 25,
-    unit: "Vasos",
-  },
-]
+import { useEffect, useState } from "react";
+import { getProteins, getCarbs, getOthers } from "../lib/directus";
+import { Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Button } from "@/components/ui/button";
 
-export function AppTable() {
-  return (
-    <Table>
-      <TableCaption>Inventario actual de alimentos para el buffet.</TableCaption>
-      <TableHeader>
-        <TableRow>
-          <TableHead className="w-[150px]">Nombre</TableHead>
-          <TableHead>Categoría</TableHead>
-          <TableHead>Cantidad</TableHead>
-          <TableHead className="text-right">Unidad</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {foodInventory.map((food, index) => (
-          <TableRow key={index}>
-            <TableCell className="font-medium">{food.name}</TableCell>
-            <TableCell>{food.category}</TableCell>
-            <TableCell>{food.quantity}</TableCell>
-            <TableCell className="text-right">{food.unit}</TableCell>
-          </TableRow>
-        ))}
-      </TableBody>
-      <TableFooter>
-        <TableRow>
-          <TableCell colSpan={3}>Total de alimentos</TableCell>
-          <TableCell className="text-right">{foodInventory.length} tipos</TableCell>
-        </TableRow>
-      </TableFooter>
-    </Table>
-  )
+export function AppTable({ title, data }) {
+    return (
+        <div className="mb-6">
+            <h2 className="text-lg font-bold mb-2">{title}</h2>
+            <Table>
+                <TableCaption>Inventario actual de {title.toLowerCase()}.</TableCaption>
+                <TableHeader>
+                    <TableRow>
+                        <TableHead className="w-[150px]">Nombre</TableHead>
+                        <TableHead>Cantidad</TableHead>
+                    </TableRow>
+                </TableHeader>
+                <TableBody>
+                    {data.map((item) => (
+                        <TableRow key={item.id}>
+                            <TableCell className="font-medium">{item.nombre}</TableCell>
+                            <TableCell>{item.cantidad}</TableCell>
+                        </TableRow>
+                    ))}
+                </TableBody>
+                <TableFooter>
+                    <TableRow>
+                        <TableCell colSpan={1}>Total de {title.toLowerCase()}</TableCell>
+                        <TableCell className="text-right">{data.length} tipos</TableCell>
+                    </TableRow>
+                </TableFooter>
+            </Table>
+        </div>
+    );
+}
+
+export default function Home() {
+    const [proteins, setProteins] = useState([]);
+    const [carbs, setCarbs] = useState([]);
+    const [others, setOthers] = useState([]);
+
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+    const fetchData = async () => {
+        const proteinsData = await getProteins();
+        const carbsData = await getCarbs();
+        const othersData = await getOthers();
+        setProteins(proteinsData);
+        setCarbs(carbsData);
+        setOthers(othersData);
+    };
+
+    return (
+        <div className="p-4 space-y-4">
+            <h1 className="text-lg font-bold">Inventario</h1>
+            <AppTable title="Proteínas" data={proteins} />
+            <AppTable title="Carbohidratos" data={carbs} />
+            <AppTable title="Otros" data={others} />
+            <Button onClick={fetchData} className="mt-4">Actualizar Inventario</Button>
+        </div>
+    );
 }
