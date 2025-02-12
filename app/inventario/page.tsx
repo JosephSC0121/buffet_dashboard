@@ -1,35 +1,13 @@
 "use client";
-
-import { useEffect, useState } from "react";
-import { getProteins, getCarbs, getOthers } from "../../lib/directus";
-import { AppTable } from "@/components/app-table";
-import { Button } from "@/components/ui/button";
+import { AppDialog } from "@/components/app-dialog";
+import { useState } from "react";
 
 export default function Home() {
-    const [proteins, setProteins] = useState([]);
-    const [carbs, setCarbs] = useState([]);
-    const [others, setOthers] = useState([]);
-
-    useEffect(() => {
-        fetchData();
-    }, []);
-
-    const fetchData = async () => {
-        const proteinsData = await getProteins();
-        const carbsData = await getCarbs();
-        const othersData = await getOthers();
-        setProteins(proteinsData);
-        setCarbs(carbsData);
-        setOthers(othersData);
-    };
-
+    const [date, setDate] = useState(new Date());
     return (
         <div className="p-4 space-y-4">
-            <h1 className="text-lg font-bold">Inventario</h1>
-            <AppTable title="Proteínas" data={proteins} />
-            <AppTable title="Carbohidratos" data={carbs} />
-            <AppTable title="Otros" data={others} />
-            <Button onClick={fetchData} className="mt-4">Actualizar Inventario</Button>
+            <h1 className="text-lg font-bold">Inventario del Dia {date.toLocaleDateString()}</h1>
+            <AppDialog title="Crear Inventario del dia" />   
         </div>
     );
 }

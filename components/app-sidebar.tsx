@@ -1,5 +1,4 @@
 import { Calendar, Home, Inbox, Search, Settings } from "lucide-react"
-
 import {
   Sidebar,
   SidebarContent,
@@ -12,6 +11,11 @@ import {
 } from "@/components/ui/sidebar"
 
 const items = [
+  {
+    title: "Inventario General",
+    url: "/inventario_general",
+    icon: Inbox,
+  },
   {
     title: "Inventario",
     url: "/inventario",

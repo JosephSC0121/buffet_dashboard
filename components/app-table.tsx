@@ -30,6 +30,7 @@ export function AppTable({ title, data }) {
                         <TableCell colSpan={1}>Total de {title.toLowerCase()}</TableCell>
                         <TableCell className="text-right">{data.length} tipos</TableCell>
                     </TableRow>
+                  
                 </TableFooter>
             </Table>
         </div>
