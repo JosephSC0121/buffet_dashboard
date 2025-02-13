@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getProteins, getCarbs, getOthers } from "../../lib/directus";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { jsPDF } from "jspdf";
 import { updateItemProtein, updateItemCarbohidratos, updateItemOtros } from "../../lib/directus";
