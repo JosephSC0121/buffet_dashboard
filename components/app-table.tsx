@@ -1,11 +1,9 @@
 "use client";
-
-import { useEffect, useState } from "react";
-import { getProteins, getCarbs, getOthers } from "../lib/directus";
 import { Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Button } from "@/components/ui/button";
+import { AppTableProps } from "@/types/ApiResponses";
 
-export function AppTable({ title, data }) {
+
+export function AppTable({ title, data }: AppTableProps) {
     return (
         <div className="mb-6">
             <h2 className="text-lg font-bold mb-2">{title}</h2>
@@ -14,54 +12,29 @@ export function AppTable({ title, data }) {
                 <TableHeader>
                     <TableRow>
                         <TableHead className="w-[150px]">Nombre</TableHead>
-                        <TableHead>Cantidad</TableHead>
+                        <TableHead>Cantidad Disponible</TableHead>
+                        <TableHead>Unidad</TableHead>
+                        <TableHead>Precio</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
                     {data.map((item) => (
                         <TableRow key={item.id}>
                             <TableCell className="font-medium">{item.nombre}</TableCell>
-                            <TableCell>{item.cantidad}</TableCell>
+                            <TableCell>{item.cantidad_disponible}</TableCell>
+                            <TableCell>{item.unidad}</TableCell>
+                            <TableCell>{item.precio}</TableCell>
                         </TableRow>
                     ))}
                 </TableBody>
                 <TableFooter>
                     <TableRow>
-                        <TableCell colSpan={1}>Total de {title.toLowerCase()}</TableCell>
-                        <TableCell className="text-right">{data.length} tipos</TableCell>
+                        <TableCell colSpan={4}>Total de {title.toLowerCase()}</TableCell>
+                        <TableCell className="text-right">{data.length}</TableCell>
                     </TableRow>
-                  
                 </TableFooter>
             </Table>
         </div>
     );
 }
 
-export default function Home() {
-    const [proteins, setProteins] = useState([]);
-    const [carbs, setCarbs] = useState([]);
-    const [others, setOthers] = useState([]);
-
-    useEffect(() => {
-        fetchData();
-    }, []);
-
-    const fetchData = async () => {
-        const proteinsData = await getProteins();
-        const carbsData = await getCarbs();
-        const othersData = await getOthers();
-        setProteins(proteinsData);
-        setCarbs(carbsData);
-        setOthers(othersData);
-    };
-
-    return (
-        <div className="p-4 space-y-4">
-            <h1 className="text-lg font-bold">Inventario</h1>
-            <AppTable title="Proteínas" data={proteins} />
-            <AppTable title="Carbohidratos" data={carbs} />
-            <AppTable title="Otros" data={others} />
-            <Button onClick={fetchData} className="mt-4">Actualizar Inventario</Button>
-        </div>
-    );
-}
