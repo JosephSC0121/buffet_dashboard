@@ -55,11 +55,11 @@ export function AppDialog({ title, data }: AppDialogProps) {
           <DialogDescription>Selecciona los platos y la cantidad de porciones.</DialogDescription>
         </DialogHeader>
 
-        <div className="space-y-3">
+        <div className="space-y-1">
           {categories.map(({ label, key, tipo }) => {
             const filteredItems = data.filter((item) => item.tipo === tipo);
             return (
-              <div key={key} className="flex flex-col gap-2 border-b pb-3">
+              <div key={key} className="flex flex-col gap-2">
                 <Label htmlFor={key} className="text-sm font-medium text-gray-700">
                   {label}
                 </Label>
@@ -91,7 +91,6 @@ export function AppDialog({ title, data }: AppDialogProps) {
         </div>
 
         <DialogFooter className="flex justify-between mt-4">
-          <Button variant="outline">Cancelar</Button>
           <AppDialogIngredients title="📜 Resumen" data={data} />
         </DialogFooter>
       </DialogContent>
