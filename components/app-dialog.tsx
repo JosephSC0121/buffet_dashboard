@@ -31,11 +31,14 @@ export function AppDialog({ title, data }: AppDialogProps) {
   ];
 
   const handleSelectChange = (type: string, value: string) => {
-    setSelectedItems((prev) => ({
-      ...prev,
-      [type]: value,
+    const selectedDish = data.find(item => item.nombre === value);
+    setSelectedItems(prev => ({
+        ...prev,
+        [type]: value,
+        [`receta_${type}_id`]: selectedDish ? selectedDish.id : null
     }));
-  };
+};
+
 
   const handleQuantityChange = (type: string, value: string) => {
     setSelectedItems((prev) => ({
@@ -56,7 +59,7 @@ export function AppDialog({ title, data }: AppDialogProps) {
         </DialogHeader>
 
         <div className="space-y-1">
-          {categories.map(({ label, key, tipo }) => {
+          {categories.map(({ label, key, tipo}) => {
             const filteredItems = data.filter((item) => item.tipo === tipo);
             return (
               <div key={key} className="flex flex-col gap-2">
@@ -64,7 +67,7 @@ export function AppDialog({ title, data }: AppDialogProps) {
                   {label}
                 </Label>
                 <div className="flex gap-3">
-                  <Select defaultValue={selectedItems[key] || ""} onValueChange={(value) => handleSelectChange(key, value)}>
+                  <Select defaultValue={selectedItems[key as keyof typeof selectedItems] || ""} onValueChange={(value) => handleSelectChange(key, value)}>
                     <SelectTrigger className="flex-1">
                       <SelectValue placeholder="Selecciona" />
                     </SelectTrigger>
