@@ -1,6 +1,6 @@
-import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
+import { AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 
-export function AppAccordion({ title, data, value }) {
+export function AppAccordion({ title, data, value }: { title: string, data: any[], value: string }) {
     return (
             <AccordionItem value={value}>
                 <AccordionTrigger>{title}</AccordionTrigger>

@@ -1,5 +1,5 @@
 "use client";
-import { Calendar, Home, Inbox, Settings, Users, FileText, ClipboardList } from "lucide-react";
+import {  Home, Inbox, FileText, ClipboardList } from "lucide-react";
 import { 
   Sidebar, 
   SidebarContent, 
@@ -15,7 +15,7 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils"; // Para manejar clases condicionales
 
 const items = [
-  { title: "Inicio", url: "/inicio", icon: Home },
+  { title: "Inicio", url: "/", icon: Home },
   { title: "Inventario General", url: "/inventario_general", icon: ClipboardList },
   { title: "Inventario", url: "/inventario", icon: Inbox },
   { title: "Órdenes", url: "/orden", icon: FileText },

@@ -2,7 +2,7 @@
 
 import { createDirectus, rest, readItems, updateItem, createItem } from "@directus/sdk";
 
-const directus = createDirectus("http://localhost:8055/").with(rest());
+const directus = createDirectus(process.env.NEXT_PUBLIC_DIRECTUS_URL!).with(rest());
 
 export async function getIngredients() {
     return directus.request(readItems("ingredientes"));
