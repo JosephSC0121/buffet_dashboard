@@ -16,6 +16,7 @@ type OrderType = {
 
 export default function Home() {
     const [date] = useState(new Date());
+    console.log(date)
     const { ordenes, loading, recetaNombres, recipes } = useFetchOrdersAndRecipes(date);
     const [isLoading, setIsLoading] = useState(true);
 
